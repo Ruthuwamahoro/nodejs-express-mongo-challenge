@@ -4,12 +4,16 @@ const Product = require('../models/product');
 
 router.get('/', async (req, res) => {
   try{
-    const products = await Product.find();
-    res.json({status:200, message: "Successfully retrieved products", data: products})
+    const { page=1, limit=5} = req.query;
+    const products = await Product.find().limit(limit * 1).skip((page - 1) * limit).exec();
+
+    const count = await Product.countDocuments();
+    res.json({status:200, message: "Successfully retrieved products", data: products, totalPages: Math.ceil(count / limit), currentPage: page})
   } catch(error){
     res.json({status:500, message: "Unexpected error occured", data: error.message})
   }
 });
+
 
 router.get('/:id', async (req, res) => {
   try{
@@ -20,6 +24,7 @@ router.get('/:id', async (req, res) => {
     res.json({status:500, message: "Unexpected error occured", data: error.message})
   }
 });
+
 
 router.post('/', async (req, res) => {
   try{
