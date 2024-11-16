@@ -6,14 +6,12 @@ router.get('/', async (req, res) => {
   try{
     const { page=1, limit=5} = req.query;
     const products = await Product.find().limit(limit * 1).skip((page - 1) * limit).exec();
-
     const count = await Product.countDocuments();
     res.json({status:200, message: "Successfully retrieved products", data: products, totalPages: Math.ceil(count / limit), currentPage: page})
   } catch(error){
-    res.json({status:500, message: "Unexpected error occured", data: error.message})
+    res.json({status:500, message: "Unexpected error occurred", data: error.message})
   }
 });
-
 
 router.get('/:id', async (req, res) => {
   try{
@@ -21,7 +19,7 @@ router.get('/:id', async (req, res) => {
     if(singleProduct === null) res.status(400).json({status: 400, error: "id not found"})
     res.json({status:200, message: "Successfully retrieved product", data: singleProduct})
   } catch(error){
-    res.json({status:500, message: "Unexpected error occured", data: error.message})
+    res.json({status:500, message: "Unexpected error occurred", data: error.message})
   }
 });
 
@@ -38,7 +36,7 @@ router.post('/', async (req, res) => {
     res.json({status: 200, message: "Successfully posted products", data: null})
 
   } catch(error){
-    res.json({status:500, message: "Unexpected error occured", data: error.message})
+    res.json({status:500, message: "Unexpected error occurred", data: error.message})
   }
 
 });
@@ -51,7 +49,7 @@ router.put('/:id', async (req, res) => {
     res.status(200).json({status: "ok",data: updateProduct, message: "Successfully retrieved updated"});
 
   } catch(error){
-    res.json({status:500, message: "Unexpected error occured", data: error.message})
+    res.json({status:500, message: "Unexpected error occurred", data: error.message})
   }
 });
 
@@ -62,7 +60,7 @@ router.delete('/:id', async (req, res) => {
     if(result === null) res.status(410).json({message: "product already deleted"})
     res.json({status: "ok", data: null , message:"successfully deleted products"});
   } catch(error){
-    res.json({status:500, message: "Unexpected error occured", data: error.message})
+    res.json({status:500, message: "Unexpected error occurred", data: error.message})
   }
 });
 
