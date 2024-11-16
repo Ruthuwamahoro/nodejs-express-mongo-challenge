@@ -4,6 +4,8 @@ const router = express.Router();
 const Product = require('../models/product');
 const passport = require('passport');
 const { Strategy, ExtractJwt } = require('passport-jwt');
+const {ProductSchema, options } = require('../utils/validateField');
+
 
 
 router.get('/', async (req, res) => {
@@ -35,6 +37,11 @@ router.post('/', async (req, res, next) => {
       }
       if(!user){
           return res.status(401).json({status: 401, error: "please login is required"})
+      }
+      const result = ProductSchema.validate(req.body, options);
+      if (result.error) {
+          const messageError = result.error.details.map((error) => error.message).join(', ');
+          return res.status(400).json({ status: 400, error: messageError });
       }
       const {name , description, price} = await req.body
       const products = new Product({
