@@ -11,7 +11,7 @@ const LocalStrategy = require('passport-local').Strategy;
 
 
 
-router.post("/user", async(req, res) => {
+router.post("/", async(req, res) => {
     try{
 
         const result = registerSchema.validate(req.body, options);
@@ -83,3 +83,4 @@ router.post('/login', async (req, res, next) => {
         next(err);
     }
 });
+module.exports = router;
