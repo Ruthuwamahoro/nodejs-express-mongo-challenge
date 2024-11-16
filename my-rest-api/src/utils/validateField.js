@@ -1,5 +1,5 @@
-const { Joi } = require("joi");
-export const registerSchema = Joi.object({
+const  Joi  = require("joi");
+const registerSchema = Joi.object({
     email: Joi.string().email().required(),
     fullName: Joi.string().max(100).required(),
     gender: Joi.string().max(50).required(),
@@ -11,14 +11,17 @@ export const registerSchema = Joi.object({
         'any.only': 'Confirm password must be same as password'
     })
 })
-export const options = {
+const options = {
     abortEarly: false,
     allowUnknown: true,
     stripUnknown: true
 }
 
-export const ProductSchema = Joi.object({
+const ProductSchema = Joi.object({
     name: Joi.string().max(20).required(),
     description: Joi.string().min(4).max(15),
     price: Joi.number().min(4).max(15).required(),
 })
+
+
+module.exports = { registerSchema, options, ProductSchema}
