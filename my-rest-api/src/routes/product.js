@@ -84,6 +84,7 @@ router.delete('/:id', async (req, res, next) => {
       if(err){
         return next(err)
       }
+      
       if(!user){
           return res.status(401).json({status: 401, error: "please login is required"})
       }
